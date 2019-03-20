@@ -46,7 +46,7 @@ app.post("/get_access_token", (request, response, next) => {
     }
     ACCESS_TOKEN = tokenResponse.access_token;
     ITEM_ID = tokenResponse.item_id;
-    response.json({
+    return response.json({
       access_token: ACCESS_TOKEN,
       item_id: ITEM_ID,
       error: null
@@ -73,7 +73,7 @@ app.get("/transactions", (request, response, next) => {
           error: error
         });
       } else {
-        response.json({
+        return response.json({
           error: null,
           transactions: transactionsResponse
         });
@@ -89,7 +89,7 @@ app.get("/identity", (request, response, next) => {
         error: error
       });
     }
-    response.json({
+    return response.json({
       error: null,
       identity: identityResponse
     });
@@ -103,7 +103,7 @@ app.get("/balance", (request, response, next) => {
         error: error
       });
     }
-    response.json({
+    return response.json({
       error: null,
       balance: balanceResponse
     });
@@ -117,7 +117,7 @@ app.get("/accounts", (request, response, next) => {
         error: error
       });
     }
-    response.json({
+    return response.json({
       error: null,
       accounts: accountsResponse
     });
@@ -131,9 +131,23 @@ app.get("/auth", (request, response, next) => {
         error: error
       });
     }
-    response.json({
+    return response.json({
       error: null,
       auth: authResponse
+    });
+  });
+});
+
+app.get("/income", (request, response, next) => {
+  client.getIncome(ACCESS_TOKEN, (error, incomeResponse) => {
+    if (error !== null) {
+      return response.json({
+        error: error
+      });
+    }
+    return response.json({
+      error: null,
+      income: incomeResponse
     });
   });
 });
